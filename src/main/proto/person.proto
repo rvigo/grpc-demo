@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package com.rvigo.grpcPoc.adapters.grpc.person;
+
+service PersonService{
+  rpc findPerson(PersonRequest) returns (PersonResponse){
+  }
+}
+
+message PersonRequest {
+  string cpf = 1;
+}
+
+message PersonResponse {
+  string name = 1;
+  int32 id = 2;
+  string email = 3;
+  string cpf = 4;
+}

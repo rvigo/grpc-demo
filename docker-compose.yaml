@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  app:
+    build:
+      context: .
+    image: grpc-demo
+    container_name: grpc-demo
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    environment:
+      POSTGRES_URL: db
+
+  db:
+    depends_on:
+      - app
+    image: postgres:15.2-alpine
+    container_name: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
