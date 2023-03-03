@@ -1,26 +1,47 @@
 version: '3.1'
 
 services:
-  app:
+  client:
     build:
-      context: .
-    image: grpc-demo
-    container_name: grpc-demo
+      context: client
+    image: grpc-demo-client
+    container_name: grpc-demo-client
     ports:
       - "8080:8080"
-      - "9090:9090"
+    environment:
+      GRPC_SERVER_URL: grpc-demo-server
+      GRPC_SERVER_PORT: 9090
+    networks:
+      - grpc_nw
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: server
+    image: grpc-demo-server
+    container_name: grpc-demo-server
+#    ports:
+#      - "8081:8081" # spring server port (if you want to be able to call the server via REST)
+#      - "9090:9090" # gRPC server port (if you want to be able to call the server directly from the terminal)
     environment:
       POSTGRES_URL: db
+    networks:
+      - grpc_nw
+    depends_on:
+      - db
 
   db:
-    depends_on:
-      - app
     image: postgres:15.2-alpine
     container_name: db
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#    ports:
+#      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
+      POSTGRES_DB: grpc
+    networks:
+      - grpc_nw
+
+networks:
+  grpc_nw:

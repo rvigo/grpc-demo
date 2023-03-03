@@ -1,4 +1,4 @@
-# gRPC Demo Application
+# gRPC Server and Client demo
 
 ## made with:
 [kotlin](https://kotlinlang.org)  
@@ -12,5 +12,3 @@
 ```bash
 $ docker-compose up -d
 ```
-
-you can make test requests using [grpcurl](https://github.com/fullstorydev/grpcurl) or [grpcui](https://github.com/fullstorydev/grpcui)

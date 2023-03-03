@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package com.rvigo.grpcPoc.adapters.grpc.person;
+
+service PersonService{
+  rpc findPerson(PersonRequest) returns (PersonResponse){}
+  rpc createPerson(CreatePersonRequest) returns (PersonResponse){}
+}
+
+message PersonRequest {
+  string cpf = 1;
+}
+
+message CreatePersonRequest {
+  string name = 1;
+  string email = 2;
+  string cpf = 3;
+  repeated AddressRequest address = 4;
+}
+
+message PersonResponse {
+  string name = 1;
+  int32 id = 2;
+  string email = 3;
+  string cpf = 4;
+  repeated AddressResponse address = 5;
+}
+
+message ErrorResponse {
+  string message = 1;
+  string exception = 2;
+}
+
+message AddressRequest {
+  string street = 1;
+  string city = 2;
+  string type = 3;
+}
+
+message AddressResponse {
+  int32 id = 1;
+  string street = 2;
+  string city = 3;
+  string type = 4;
+}
