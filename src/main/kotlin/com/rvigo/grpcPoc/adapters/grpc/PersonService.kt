@@ -25,7 +25,7 @@ class PersonService(val repository: PersonRepository) : PersonServiceGrpc.Person
                 .setName(person.name)
                 .setEmail(person.email)
                 .setCpf(person.cpf)
-                .setId(person.id.value).build()
+                .setId(person.id).build()
             logger.info { "sending a response: $person" }
             responseObserver?.onNext(personResponse)
             responseObserver?.onCompleted()

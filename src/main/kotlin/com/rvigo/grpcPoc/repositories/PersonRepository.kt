@@ -1,6 +1,7 @@
 package com.rvigo.grpcPoc.repositories
 
 import com.rvigo.grpcPoc.infra.tables.Persons
+import com.rvigo.grpcPoc.infra.tables.fromRow
 import com.rvigo.grpcPoc.models.Person
 import mu.KotlinLogging
 import org.jetbrains.exposed.sql.*
@@ -22,6 +23,8 @@ class PersonRepository(
             url = url, driver = "org.postgresql.Driver",
             user = user, password = password
         )
+
+        logger.info { "database connected" }
         createTables()
         populate()
     }
@@ -38,25 +41,21 @@ class PersonRepository(
         logger.info { "populating tables" }
         transaction {
             if (Persons.selectAll().empty()) {
-                Person.new {
-                    name = "Person 1"
-                    email = "person01@gmail.com"
-                    cpf = "1234567890"
+                Persons.insert {
+                    it[name] = "Person 1"
+                    it[email] = "person01@gmail.com"
+                    it[cpf] = "1234567890"
                 }
-                Person.new {
-                    name = "Person 2"
-                    email = "person02@gmail.com"
-                    cpf = "1234567892"
+                Persons.insert {
+                    it[name] = "Person 2"
+                    it[email] = "person02@gmail.com"
+                    it[cpf] = "1234567892"
                 }
             }
         }
     }
 
     fun findPersonByCpfOrNull(cpf: String): Person? = transaction {
-        addLogger(StdOutSqlLogger)
-
-        Person.find {
-            Persons.cpf eq cpf
-        }.singleOrNull()
+        Persons.select { Persons.cpf eq cpf }.singleOrNull()?.let { Persons.fromRow(it) }
     }
 }
