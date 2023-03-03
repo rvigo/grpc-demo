@@ -17,3 +17,8 @@ message PersonResponse {
   string email = 3;
   string cpf = 4;
 }
+
+message ErrorResponse {
+  string message = 1;
+  string exception = 2;
+}
