@@ -3,12 +3,18 @@ syntax = "proto3";
 package com.rvigo.grpcPoc.adapters.grpc.person;
 
 service PersonService{
-  rpc findPerson(PersonRequest) returns (PersonResponse){
-  }
+  rpc findPerson(PersonRequest) returns (PersonResponse){}
+  rpc createPerson(CreatePersonRequest) returns (PersonResponse){}
 }
 
 message PersonRequest {
   string cpf = 1;
+}
+
+message CreatePersonRequest {
+  string name = 1;
+  string email = 2;
+  string cpf = 3;
 }
 
 message PersonResponse {

@@ -25,8 +25,17 @@ class PersonRepository(
         )
 
         logger.info { "database connected" }
+        drop()
         createTables()
         populate()
+    }
+
+    private fun drop() {
+        logger.info { "dropping tables" }
+        transaction {
+            SchemaUtils.drop(Persons)
+            commit()
+        }
     }
 
     private fun createTables() {
@@ -56,6 +65,18 @@ class PersonRepository(
     }
 
     fun findPersonByCpfOrNull(cpf: String): Person? = transaction {
-        Persons.select { Persons.cpf eq cpf }.singleOrNull()?.let { Persons.fromRow(it) }
+        Persons.select { Persons.cpf eq cpf }.singleOrNull()?.let(Persons::fromRow)
+    }
+
+    fun addPerson(person: Person): Person? = transaction {
+        Persons.insert {
+            it[name] = person.name
+            it[email] = person.email
+            it[cpf] = person.cpf
+        }.resultedValues?.singleOrNull()?.let(Persons::fromRow)
+    }
+
+    fun personExists(cpf: String) = transaction {
+        !Persons.select { Persons.cpf eq cpf }.empty()
     }
 }
