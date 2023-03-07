@@ -1,4 +1,4 @@
-FROM gradle:7-alpine as builder
+FROM gradle:7-alpine as client-builder
 USER root
 RUN apk add gcompat
 WORKDIR /builder
@@ -8,7 +8,7 @@ RUN gradle build -x test --stacktrace
 FROM eclipse-temurin:17-alpine
 WORKDIR /app
 EXPOSE 8080
-COPY --from=builder /builder/build/libs/*.jar ./client.jar
+COPY --from=client-builder /builder/build/libs/*.jar ./client.jar
 
 CMD ["java", "-jar", "client.jar"]
 
