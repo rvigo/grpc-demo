@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class GrpcPocApplication(val services: List<BindableService>) : ApplicationRunner {
+class GrpcServerApplication(private val services: List<BindableService>) : ApplicationRunner {
     private val logger = KotlinLogging.logger {}
 
     override fun run(args: ApplicationArguments?) {
@@ -27,5 +27,5 @@ class GrpcPocApplication(val services: List<BindableService>) : ApplicationRunne
 }
 
 fun main(args: Array<String>) {
-    runApplication<GrpcPocApplication>(*args)
+    runApplication<GrpcServerApplication>(*args)
 }
