@@ -4,8 +4,14 @@ plugins {
     base
     id("org.springframework.boot") version "3.0.3" apply false
     id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm") version "1.7.22"
-    kotlin("plugin.spring") version "1.7.22" apply false
+    id("org.jetbrains.kotlinx.kover") version "0.7.2"
+    kotlin("jvm") version "1.8.22"
+    kotlin("plugin.spring") version "1.8.22"
+}
+
+dependencies {
+    kover(project(":client"))
+    kover(project(":server"))
 }
 
 allprojects {
@@ -37,7 +43,6 @@ subprojects {
     }
 
     dependencies {
-        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
 
         // gRPC (needed to build the proto files)
@@ -52,5 +57,18 @@ subprojects {
 
         // tests
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+}
+
+koverReport {
+    defaults {
+        verify {
+            rule {
+                bound {
+                    minValue = 75
+                    maxValue = 100
+                }
+            }
+        }
     }
 }
