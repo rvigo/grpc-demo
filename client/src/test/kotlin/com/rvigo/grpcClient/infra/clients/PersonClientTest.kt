@@ -1,8 +1,8 @@
 package com.rvigo.grpcClient.infra.clients
 
-import com.rvigo.grpcClient.adapters.grpc.person.Person.PersonRequest
-import com.rvigo.grpcClient.adapters.grpc.person.Person.PersonResponse
-import com.rvigo.grpcClient.adapters.grpc.person.PersonServiceGrpc
+import com.rvigo.grpcServer.adapters.grpc.person.Person.PersonRequest
+import com.rvigo.grpcServer.adapters.grpc.person.Person.PersonResponse
+import com.rvigo.grpcServer.adapters.grpc.person.PersonServiceGrpc
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals

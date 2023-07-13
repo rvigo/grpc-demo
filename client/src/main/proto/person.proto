@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-package com.rvigo.grpcClient.adapters.grpc.person;
+// should be exactly as the server package
+package com.rvigo.grpcServer.adapters.grpc.person;
 
 service PersonService{
   rpc findPerson(PersonRequest) returns (PersonResponse){}
