@@ -1,13 +1,19 @@
-FROM gradle:7-alpine as server-builder
-USER root
+FROM gradle:7.4.2-jdk17-alpine as server-builder
+
 RUN apk add gcompat
-WORKDIR /builder
-ADD ./ /builder
-RUN gradle build -x test --stacktrace
+
+COPY --chown=gradle:gradle . /app
+
+WORKDIR /app
+
+RUN gradle bootJar --no-daemon
 
 FROM eclipse-temurin:17-alpine
+
 WORKDIR /app
+
+COPY --from=server-builder /app/server/build/libs/*.jar ./server.jar
+
 EXPOSE 8081 9090
-COPY --from=server-builder /builder/build/libs/*.jar ./server.jar
 
 CMD ["java", "-jar", "server.jar"]
