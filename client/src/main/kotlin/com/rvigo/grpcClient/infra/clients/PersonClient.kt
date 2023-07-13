@@ -1,22 +1,20 @@
 package com.rvigo.grpcClient.infra.clients
 
-import com.rvigo.grpcClient.adapters.grpc.person.Person.AddressRequest
-import com.rvigo.grpcClient.adapters.grpc.person.Person.AddressResponse
-import com.rvigo.grpcClient.adapters.grpc.person.Person.CreatePersonRequest
-import com.rvigo.grpcClient.adapters.grpc.person.Person.PersonRequest
-import com.rvigo.grpcClient.adapters.grpc.person.Person.PersonResponse
-import com.rvigo.grpcClient.adapters.grpc.person.PersonServiceGrpc
+import com.rvigo.grpcServer.adapters.grpc.person.Person.AddressRequest
+import com.rvigo.grpcServer.adapters.grpc.person.Person.AddressResponse
+import com.rvigo.grpcServer.adapters.grpc.person.Person.CreatePersonRequest
+import com.rvigo.grpcServer.adapters.grpc.person.Person.PersonRequest
+import com.rvigo.grpcServer.adapters.grpc.person.Person.PersonResponse
+import com.rvigo.grpcServer.adapters.grpc.person.PersonServiceGrpc.PersonServiceBlockingStub
 import com.rvigo.grpcClient.dtos.AddressDTO
 import com.rvigo.grpcClient.dtos.PersonDTO
 import com.rvigo.grpcClient.models.Address
 import com.rvigo.grpcClient.models.Person
-import io.grpc.ManagedChannel
 import mu.KotlinLogging
 import org.springframework.stereotype.Component
 
 @Component
-class PersonClient(managedChannel: ManagedChannel) {
-    private val stub: PersonServiceGrpc.PersonServiceBlockingStub = PersonServiceGrpc.newBlockingStub(managedChannel)
+class PersonClient(private val stub: PersonServiceBlockingStub) {
 
     private val logger = KotlinLogging.logger {}
 
